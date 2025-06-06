@@ -1,0 +1,48 @@
+services:
+  # Service pour l'application Node.js
+  node_app:
+    image: devops-node-api:latest 
+    container_name: devops_node_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORT: ${APP_PORT}
+      DB_HOST: ${DB_HOST}     # Ce sera 'mysql_db' car ils sont sur le même réseau Docker
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "${APP_PORT}:${APP_PORT}" 
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # Service pour la base de données MySQL
+  mysql_db:
+    image: mysql:8.0
+    container_name: devops_mysql_db_prod
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 3
+      start_period: 30s #
+    networks:
+      - app-network
+
+volumes:
+  mysql_data: 
+
+networks:
+  app-network: 
