@@ -1,4 +1,4 @@
-Ce projet a été réalisé dans le cadre d'une évaluation sur le DevOps, visant à démontrer la capacité à développer une application, la connecter à une base de données, la tester, et automatiser son déploiement via un pipeline CI/CD. Bien que l'énoncé original spécifiait Python, une dérogation a été obtenue pour utiliser Node.js et Express.js, technologies avec lesquelles l'équipe est plus à l'aise.
+Ce projet a été réalisé dans le cadre d'une évaluation sur le DevOps, visant à démontrer la capacité à développer une application, la connecter à une base de données, la tester, et automatiser son déploiement via un pipeline CI/CD.
 
 ## Spécifications Techniques
 
